@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { IconPencil, IconPlus, IconSpinner, IconTrash } from "@/components/icons";
@@ -169,7 +171,7 @@ export function DiscountManager({ initial }: { initial: DiscountCode[] }) {
   async function toggleActive(discount: DiscountCode) {
     setBusyId(discount.id);
     try {
-      const response = await fetch(`/api/discounts/${discount.id}`, {
+      const response = await fetch(api(`/api/discounts/${discount.id}`), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...discount, active: !discount.active }),
@@ -204,7 +206,7 @@ export function DiscountManager({ initial }: { initial: DiscountCode[] }) {
     if (!confirmed) return;
     setBusyId(discount.id);
     try {
-      const response = await fetch(`/api/discounts/${discount.id}`, { method: "DELETE" });
+      const response = await fetch(api(`/api/discounts/${discount.id}`), { method: "DELETE" });
       const body = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(body?.error ?? "Suppression impossible.");
       setDiscounts((current) => current.filter((entry) => entry.id !== discount.id));

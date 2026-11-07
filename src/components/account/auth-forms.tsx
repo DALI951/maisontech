@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -43,7 +45,7 @@ export function LoginForm({ next, demo }: { next?: string; demo: { email: string
     }
     setBusy(true);
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(api("/api/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -194,7 +196,7 @@ export function RegisterForm({ next }: { next?: string }) {
     }
     setBusy(true);
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch(api("/api/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -206,7 +208,7 @@ export function RegisterForm({ next }: { next?: string }) {
         return;
       }
       if (values.newsletter) {
-        void fetch("/api/newsletter", {
+        void fetch(api("/api/newsletter"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: values.email }),

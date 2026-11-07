@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState } from "react";
 import { IconArrowRight, IconCheck } from "@/components/icons";
 import { Button } from "@/components/ui/primitives";
@@ -25,7 +27,7 @@ export function NewsletterForm({
     }
     setState("loading");
     try {
-      const response = await fetch("/api/newsletter", {
+      const response = await fetch(api("/api/newsletter"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

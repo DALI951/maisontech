@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -67,7 +69,7 @@ export function AdminLogoutButton() {
     <button
       type="button"
       onClick={() => {
-        void fetch("/api/auth/logout", { method: "POST" })
+        void fetch(api("/api/auth/logout"), { method: "POST" })
           .catch(() => undefined)
           .finally(() => {
             router.replace("/admin/connexion");

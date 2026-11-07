@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState } from "react";
 import { IconCheck } from "@/components/icons";
 import { Alert, Button } from "@/components/ui/primitives";
@@ -44,7 +46,7 @@ export function ContactForm() {
     setFormError(null);
     setBusy(true);
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(api("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

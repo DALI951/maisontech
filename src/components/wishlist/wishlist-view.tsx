@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useEffect, useMemo, useState } from "react";
 import { IconArrowRight, IconCart, IconHeart, IconTrash } from "@/components/icons";
 import { ProductCard } from "@/components/product/product-card";
@@ -25,7 +27,7 @@ export function WishlistView({ brandNames }: { brandNames: Record<string, string
     }
     let cancelled = false;
     setLoading(true);
-    fetch(`/api/products?ids=${encodeURIComponent(key)}`)
+    fetch(api(`/api/products?ids=${encodeURIComponent(key)}`))
       .then((response) => (response.ok ? response.json() : { products: [] }))
       .then((data: { products?: ProductSummary[] }) => {
         if (!cancelled) setProducts(Array.isArray(data.products) ? data.products : []);

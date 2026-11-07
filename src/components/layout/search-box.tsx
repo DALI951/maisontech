@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
@@ -65,7 +67,7 @@ export function SearchBox({
     setLoading(true);
     const timer = setTimeout(async () => {
       try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(term)}`, {
+        const response = await fetch(api(`/api/search?q=${encodeURIComponent(term)}`), {
           signal: controller.signal,
         });
         if (!response.ok) throw new Error("search failed");

@@ -61,6 +61,10 @@ test.describe("administration", () => {
     await expect(select).toBeVisible();
     await select.selectOption("confirmed");
     await expect(page.getByText(/Confirmée/i).first()).toBeVisible({ timeout: 15_000 });
+
+    // The status must be written server-side, so it survives a full reload.
+    await page.reload();
+    await expect(page.locator("select").first()).toHaveValue("confirmed", { timeout: 15_000 });
   });
 
   test("les pages d'administration principales répondent", async ({ page }) => {

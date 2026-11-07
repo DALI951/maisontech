@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -124,7 +126,7 @@ export function CheckoutForm({
 
     setSubmitting(true);
     try {
-      const response = await fetch("/api/orders", {
+      const response = await fetch(api("/api/orders"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

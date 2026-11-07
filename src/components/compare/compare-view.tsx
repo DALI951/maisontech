@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { IconArrowRight, IconCart, IconClose, IconScale, IconStar } from "@/components/icons";
@@ -26,7 +28,7 @@ export function CompareView({ brandNames }: { brandNames: Record<string, string>
     }
     let cancelled = false;
     setLoading(true);
-    fetch(`/api/products?full=1&ids=${encodeURIComponent(key)}`)
+    fetch(api(`/api/products?full=1&ids=${encodeURIComponent(key)}`))
       .then((response) => (response.ok ? response.json() : { products: [] }))
       .then((data: { products?: Product[] }) => {
         if (!cancelled) setProducts(Array.isArray(data.products) ? data.products : []);

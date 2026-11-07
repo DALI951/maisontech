@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { IconEye, IconSpinner } from "@/components/icons";
@@ -37,7 +39,7 @@ export function AdminLoginForm({
 
     setPending(true);
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(api("/api/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -50,7 +52,7 @@ export function AdminLoginForm({
       }
       if (body?.user?.role !== "admin") {
         // Do not keep a customer session hanging around after a failed admin login.
-        await fetch("/api/auth/logout", { method: "POST" }).catch(() => undefined);
+        await fetch(api("/api/auth/logout"), { method: "POST" }).catch(() => undefined);
         setError("Ce compte n'a pas les droits d'administration. Utilisez le compte démo admin.");
         return;
       }

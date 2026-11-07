@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useEffect, useState } from "react";
 import type { CartResponse } from "@/lib/cart-types";
 import { useCommerce } from "@/store/commerce";
@@ -39,7 +41,7 @@ export function useCartPricing(code?: string, refreshToken = 0): CartPricingStat
 
     void (async () => {
       try {
-        const response = await fetch("/api/cart", {
+        const response = await fetch(api("/api/cart"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ lines: JSON.parse(key), code }),

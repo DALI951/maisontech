@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconCheck, IconSpinner, IconTrash } from "@/components/icons";
@@ -29,7 +31,7 @@ export function ProductRowControls({ product }: { product: RowProduct }) {
   const dirty = stock !== String(product.stock);
 
   async function patch(body: Record<string, unknown>, successTitle: string) {
-    const response = await fetch(`/api/products/${product.id}`, {
+    const response = await fetch(api(`/api/products/${product.id}`), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -83,7 +85,7 @@ export function ProductRowControls({ product }: { product: RowProduct }) {
     if (!confirmed) return;
     setDeleting(true);
     try {
-      const response = await fetch(`/api/products/${product.id}`, { method: "DELETE" });
+      const response = await fetch(api(`/api/products/${product.id}`), { method: "DELETE" });
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(payload?.error ?? "Suppression impossible.");
       push({ tone: "success", title: "Produit supprimé" });

@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconSpinner } from "@/components/icons";
@@ -38,7 +40,7 @@ export function OrderStatusSelect({
     setValue(next);
     setPending(true);
     try {
-      const response = await fetch(`/api/orders/${orderId}`, {
+      const response = await fetch(api(`/api/orders/${orderId}`), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: next }),

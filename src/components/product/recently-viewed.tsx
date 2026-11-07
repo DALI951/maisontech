@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useEffect, useMemo, useState } from "react";
 import { ProductCard } from "@/components/product/product-card";
 import { ProductRail } from "@/components/product/product-rail";
@@ -41,7 +43,7 @@ export function RecentlyViewed({
     }
     let cancelled = false;
     setLoading(true);
-    fetch(`/api/products?ids=${encodeURIComponent(key)}`)
+    fetch(api(`/api/products?ids=${encodeURIComponent(key)}`))
       .then((response) => (response.ok ? response.json() : { products: [] }))
       .then((data: { products?: ProductSummary[] }) => {
         if (!cancelled) setProducts(Array.isArray(data.products) ? data.products : []);

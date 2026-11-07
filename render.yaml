@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: maisontech
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci && npm run build
+    startCommand: npx next start -p $PORT -H 0.0.0.0
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      # Serverless/ephemeral hosts get a writable /tmp; the demo DB reseeds on restart.
+      - key: DEMO_DB_PATH
+        value: /tmp/maisontech-db.json

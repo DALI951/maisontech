@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useMemo, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -133,7 +135,7 @@ export function CategoryManager({
   async function patchFull(category: Category, changes: Partial<Category>, successTitle: string) {
     setBusyId(category.id);
     try {
-      const response = await fetch(`/api/categories/${category.id}`, {
+      const response = await fetch(api(`/api/categories/${category.id}`), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...category, ...changes }),
@@ -171,12 +173,12 @@ export function CategoryManager({
     setBusyId(category.id);
     try {
       const responses = await Promise.all([
-        fetch(`/api/categories/${category.id}`, {
+        fetch(api(`/api/categories/${category.id}`), {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...category, sortOrder: secondOrder }),
         }),
-        fetch(`/api/categories/${neighbour.id}`, {
+        fetch(api(`/api/categories/${neighbour.id}`), {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...neighbour, sortOrder: firstOrder }),
@@ -215,7 +217,7 @@ export function CategoryManager({
 
     setBusyId(category.id);
     try {
-      const response = await fetch(`/api/categories/${category.id}`, { method: "DELETE" });
+      const response = await fetch(api(`/api/categories/${category.id}`), { method: "DELETE" });
       const body = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(body?.error ?? "Suppression impossible.");
       setCategories((current) => current.filter((entry) => entry.id !== category.id));

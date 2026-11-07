@@ -56,6 +56,7 @@ test.describe("compte et commande", () => {
     await page.getByLabel(/adresse e-mail/i).fill(CLIENT.email);
     await page.locator("#password").fill(CLIENT.password);
     await page.getByRole("button", { name: /se connecter/i }).click();
+    await expect(page).toHaveURL(/\/compte/, { timeout: 20_000 });
 
     await page.goto("/compte/commandes");
     const firstOrder = page.locator('a[href^="/compte/commandes/"]').first();

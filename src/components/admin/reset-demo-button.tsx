@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconRefresh, IconSpinner } from "@/components/icons";
@@ -19,7 +21,7 @@ export function ResetDemoButton() {
 
     setPending(true);
     try {
-      const response = await fetch("/api/admin/reset", { method: "POST" });
+      const response = await fetch(api("/api/admin/reset"), { method: "POST" });
       const body = (await response.json().catch(() => null)) as
         | { ok?: boolean; error?: string; products?: number; orders?: number }
         | null;

@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useCallback, useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { IconPencil, IconPin, IconPlus, IconSpinner, IconTrash } from "@/components/icons";
@@ -101,7 +103,7 @@ export function AddressBook({ initial }: { initial: Address[] }) {
     setSaving(true);
     try {
       if (editingId) {
-        const response = await fetch("/api/account/addresses", {
+        const response = await fetch(api("/api/account/addresses"), {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: editingId, ...form }),
@@ -114,7 +116,7 @@ export function AddressBook({ initial }: { initial: Address[] }) {
         await reload();
         push({ tone: "success", title: "Adresse mise à jour" });
       } else {
-        const response = await fetch("/api/account/addresses", {
+        const response = await fetch(api("/api/account/addresses"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
@@ -136,7 +138,7 @@ export function AddressBook({ initial }: { initial: Address[] }) {
   }
 
   const reload = useCallback(async () => {
-    const response = await fetch("/api/account/addresses", { cache: "no-store" }).catch(() => null);
+    const response = await fetch(api("/api/account/addresses"), { cache: "no-store" }).catch(() => null);
     if (response?.ok) {
       const body = (await response.json().catch(() => null)) as AddressResponse | null;
       if (body?.addresses) setAddresses(body.addresses);
@@ -149,7 +151,7 @@ export function AddressBook({ initial }: { initial: Address[] }) {
     if (address.isDefault) return;
     setBusyId(address.id);
     try {
-      const response = await fetch("/api/account/addresses", {
+      const response = await fetch(api("/api/account/addresses"), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: address.id, makeDefault: true }),
@@ -178,7 +180,7 @@ export function AddressBook({ initial }: { initial: Address[] }) {
     if (!confirmed) return;
     setBusyId(address.id);
     try {
-      const response = await fetch(`/api/account/addresses?id=${encodeURIComponent(address.id)}`, {
+      const response = await fetch(api(`/api/account/addresses?id=${encodeURIComponent(address.id)}`), {
         method: "DELETE",
       });
       const body = (await response.json().catch(() => null)) as AddressResponse | null;

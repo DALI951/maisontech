@@ -1,5 +1,7 @@
 "use client";
 
+import { api } from "@/lib/base-path";
+
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { IconSpinner } from "@/components/icons";
@@ -104,7 +106,7 @@ export function SettingsForm({ settings }: { settings: StoreSettings }) {
 
     setPending(true);
     try {
-      const response = await fetch("/api/settings", {
+      const response = await fetch(api("/api/settings"), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
